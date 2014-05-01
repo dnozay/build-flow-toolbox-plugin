@@ -1,7 +1,9 @@
 package org.jenkinsci.plugins.buildflow.toolbox
 
 import com.cloudbees.plugins.flow.FlowDelegate
+import com.cloudbees.plugins.flow.JobInvocation
 import hudson.FilePath
+import hudson.model.Job
 
 /**
  * Created by dnozay on 2014-04-29
@@ -29,6 +31,20 @@ class BuildFlowToolboxDSL {
         list.each() {
             it -> it.copyToWithPermission(new FilePath(targetdir, it.name))
         }
+    }
+
+    /**
+     * Copy artifacts from one <code>JobInvocation</code> to the build flow run.
+     * @param build downstream build.
+     */
+    def slurpArtifacts(JobInvocation build) {
+        dsl.println("Copying artifacts from "+build+".")
+        String[] artifacts = build.artifactManager.root().list('**')
+        def artifactsMap = new HashMap<String,String>()
+        // here is your chance to rename artifacts...
+        artifacts.each() { it -> artifactsMap.put(it, it) }
+        dsl.flowRun.artifactManager.archive(build.workspace, null,
+            dsl.listener, artifactsMap)
     }
 
 }
