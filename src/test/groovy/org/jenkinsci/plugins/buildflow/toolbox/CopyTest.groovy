@@ -14,6 +14,7 @@ class CopyTest extends DSLTestCase {
     public void testUseExtension() {
         Job job1 = createJob("job1")
         job1.getBuildersList().add(new Shell("echo hello > artifact"));
+        // https://github.com/jenkinsci/jenkins/blob/HEAD/test/src/test/groovy/hudson/model/AbstractProjectTest.groovy#L257
 
         def flow = run("""
             def toolbox = extension.'build-flow-toolbox'

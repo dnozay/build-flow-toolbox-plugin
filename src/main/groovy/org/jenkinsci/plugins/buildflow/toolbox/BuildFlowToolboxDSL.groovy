@@ -39,11 +39,13 @@ class BuildFlowToolboxDSL {
      */
     def slurpArtifacts(JobInvocation build) {
         dsl.println("Copying artifacts from "+build+".")
+        FilePath artifactsDir = new FilePath(build.artifactManager.getArtifactsDir())
         String[] artifacts = build.artifactManager.root().list('**')
         def artifactsMap = new HashMap<String,String>()
         // here is your chance to rename artifacts...
         artifacts.each() { it -> artifactsMap.put(it, it) }
-        dsl.flowRun.artifactManager.archive(build.workspace, null,
+        // artifacts.each() { it -> dsl.println("artifact: "+it) }
+        dsl.flowRun.artifactManager.archive(artifactsDir, null,
             dsl.listener, artifactsMap)
     }
 
