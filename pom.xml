@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.jenkins-ci.plugins</groupId>
         <artifactId>plugin</artifactId>
         <version>1.532.2</version>
         <!-- what version are we building against? -->
-        <relativePath/>
+        <relativePath />
     </parent>
 
     <groupId>org.jenkins-ci.plugins</groupId>
@@ -18,11 +16,12 @@
 
     <name>Build Flow Toolbox</name>
     <description>This plugin provides DSL extensions to the BuildFlow plugin.</description>
-    <url></url>
+    <url />
     <inceptionYear>2014</inceptionYear>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.version.build-flow-plugin>0.14</project.version.build-flow-plugin>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
 
@@ -43,17 +42,24 @@
         </developer>
     </developers>
 
+    <scm>
+        <connection>scm:git:git://git@github.com/dnozay/build-flow-toolbox-plugin.git</connection>
+        <developerConnection>scm:git:https://github.com/dnozay/build-flow-toolbox-plugin.git</developerConnection>
+        <url>https://github.com/dnozay/build-flow-toolbox-plugin</url>
+        <tag>HEAD</tag>
+    </scm>
+
     <dependencies>
         <dependency>
             <groupId>com.cloudbees.plugins</groupId>
             <artifactId>build-flow-plugin</artifactId>
-            <version>0.14-SNAPSHOT</version>
+            <version>${project.version.build-flow-plugin}</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>com.cloudbees.plugins</groupId>
             <artifactId>build-flow-plugin</artifactId>
-            <version>0.14-SNAPSHOT</version>
+            <version>${project.version.build-flow-plugin}</version>
             <scope>test</scope>
             <type>test-jar</type>
         </dependency>
