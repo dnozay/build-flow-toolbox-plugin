@@ -11,7 +11,7 @@
 
     <groupId>org.jenkins-ci.plugins</groupId>
     <artifactId>build-flow-toolbox-plugin</artifactId>
-    <version>0.1-SNAPSHOT</version>
+    <version>0.1</version>
     <packaging>hpi</packaging>
 
     <name>Build Flow Toolbox</name>
@@ -46,7 +46,7 @@
         <connection>scm:git:git://git@github.com/dnozay/build-flow-toolbox-plugin.git</connection>
         <developerConnection>scm:git:https://github.com/dnozay/build-flow-toolbox-plugin.git</developerConnection>
         <url>https://github.com/dnozay/build-flow-toolbox-plugin</url>
-        <tag>HEAD</tag>
+        <tag>build-flow-toolbox-plugin-0.1</tag>
     </scm>
 
     <dependencies>
