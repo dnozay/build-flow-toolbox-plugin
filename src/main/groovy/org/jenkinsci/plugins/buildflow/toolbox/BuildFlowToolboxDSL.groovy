@@ -3,7 +3,8 @@ package org.jenkinsci.plugins.buildflow.toolbox
 import com.cloudbees.plugins.flow.FlowDelegate
 import com.cloudbees.plugins.flow.JobInvocation
 import hudson.FilePath
-import hudson.model.Job
+import hudson.matrix.MatrixBuild
+import hudson.model.Run
 
 /**
  * Created by dnozay on 2014-04-29
@@ -38,15 +39,39 @@ class BuildFlowToolboxDSL {
      * @param build downstream build.
      */
     def slurpArtifacts(JobInvocation build) {
-        dsl.println("Copying artifacts from "+build+".")
-        FilePath artifactsDir = new FilePath(build.artifactManager.getArtifactsDir())
+        Run run = build.build
+
+        if (run == null) {
+            dsl.println("Cannot slurp artifacts from a null run")
+            return;
+        }
+
+        if (run instanceof MatrixBuild) {
+            run.exactRuns.each { Run r ->
+                dsl.println("Copying child job artifacts from " + r + " to " + run.parent.name + ".")
+                copyArtifacts(r, new FilePath(r.artifactsDir))
+            }
+        } else {
+            dsl.println("Copying artifacts from "+build+".")
+            copyArtifacts(run, new FilePath(run.artifactsDir))
+        }
+    }
+
+    /**
+     * Copies artifacts for a given run, it can be a run from a matrix or a single job run
+     * @param build The build to copy artifacts from
+     */
+    def copyArtifacts(Run build, FilePath artifactsDir) {
         String[] artifacts = build.artifactManager.root().list('**')
         def artifactsMap = new HashMap<String,String>()
         // here is your chance to rename artifacts...
-        artifacts.each() { it -> artifactsMap.put(it, it) }
-        // artifacts.each() { it -> dsl.println("artifact: "+it) }
+        //artifacts.each() { it -> dsl.println("artifact: "+it + " copied to artifacts/" + build.fullDisplayName + "/" + it) }
+        artifacts.each() {  it ->
+            // Copy into a new directory to avoid overriding files
+            def path = build.fullDisplayName + "/" + it
+            artifactsMap.put(path, it)
+        }
         dsl.flowRun.artifactManager.archive(artifactsDir, null,
             dsl.listener, artifactsMap)
     }
-
 }
